@@ -12,7 +12,7 @@ public class Main {
     private final static String SPACE_REGEX = "\\s+";
     private static BufferedReader br;
 
-    private static final ParkingProcessor commandProcessor = new ParkingProcessor();
+    private static final ParkingProcessor parkingProcessor = new ParkingProcessor();
 
 
     /**
@@ -49,7 +49,7 @@ public class Main {
         String[] args;
         Command command=null;
 
-        do {
+        while(true) {
             try {
                 String line = br.readLine();
                 if(line == null || line.length()==0){
@@ -66,8 +66,11 @@ public class Main {
                 System.out.println(String.format("Command not supported: %s", args[0]));
                 continue;
             }
-            commandProcessor.process(command, args);
+            if(Command.EXIT.equals(command)){
+                break;
+            }
 
-        } while (!Command.EXIT.equals(command));
+            parkingProcessor.process(command, args);
+        }
     }
 }

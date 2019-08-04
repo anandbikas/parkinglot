@@ -166,9 +166,8 @@ public class ParkingProcessor {
                 System.out.println(joiner);
                 break;
 
-            case EXIT:
-                //Flush and close System.out before.
-                System.out.flush();
+            default:
+                //Default empty
                 break;
         }
     }
