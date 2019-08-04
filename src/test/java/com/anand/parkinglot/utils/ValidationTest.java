@@ -14,11 +14,14 @@ import org.testng.annotations.Test;
 public class ValidationTest {
 
     final String validRegistrationNumber = "KA-01-HH-9999";
+    final String validRegistrationNumber1 = "ka-01-hh-9999";
+
     final String invalidRegistrationNumber = "KA-01-HH-INVALID";
 
     @Test
     public void testValidRegistrationNumber(){
         Assert.assertTrue(Validation.isValidRegistrationNumber(validRegistrationNumber));
+        Assert.assertTrue(Validation.isValidRegistrationNumber(validRegistrationNumber1));
     }
 
     @Test

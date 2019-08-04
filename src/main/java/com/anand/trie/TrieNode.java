@@ -40,7 +40,8 @@ public class TrieNode {
      * @return
      * @throws TrieCharacterNotSupportedException
      */
-    private int charToIndex(final char c){
+    private int charToIndex(char c){
+        c = Character.toUpperCase(c);
         if(c>='A' && c<='Z'){
             return Character.toUpperCase(c)-A;
         } else if(c>='0' && c<='9'){

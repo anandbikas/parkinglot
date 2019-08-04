@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Validation {
 
     // KA-01-HH-1234
-    private static String registrationNumberRegex = "^[A-Z]{2}-[\\d]{2}-[A-Z]{1,2}-[\\d]{1,4}$";
+    private static String registrationNumberRegex = "^[A-Za-z]{2}-[\\d]{2}-[A-Za-z]{1,2}-[\\d]{1,4}$";
     private static Pattern registrationNumberPattern = Pattern.compile(registrationNumberRegex);
 
     /**
