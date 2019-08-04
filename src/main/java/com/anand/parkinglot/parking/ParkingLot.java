@@ -1,5 +1,6 @@
 package com.anand.parkinglot.parking;
 
+import com.anand.heap.BinaryMinHeap;
 import com.anand.parkinglot.exception.DuplicateVehicleException;
 import com.anand.parkinglot.exception.ParkingFullException;
 import com.anand.parkinglot.exception.ParkingSlotOutOfBoundException;
@@ -19,9 +20,7 @@ public class ParkingLot {
     private Vehicle[] vehicleSlots;
     private int size;
 
-    private int count=0;
-
-    private Integer nearestEmptySlotNumber;
+    private BinaryMinHeap<Integer> emptySlotPool;
 
     //TODO: colour-> list map: list can be expensive for delete operation, Optimization?
     private Map<Colour, List<Integer>> colorVehicleSlotMap = new HashMap<>();
@@ -36,7 +35,11 @@ public class ParkingLot {
         this.size = size;
         this.vehicleSlots = new Vehicle[size+1];
 
-        nearestEmptySlotNumber = 1;
+        //Populate empty slot pool using BinaryMinHeap
+        emptySlotPool = new BinaryMinHeap<>(size);
+        for(int i= 1; i<=size; i++){
+            emptySlotPool.insert(i);
+        }
     }
 
     /**
@@ -44,7 +47,7 @@ public class ParkingLot {
      * @return
      */
     public int getVehicleCount() {
-        return count;
+        return size-emptySlotPool.getSize();
     }
 
     /**
@@ -72,7 +75,7 @@ public class ParkingLot {
             throw new IllegalArgumentException("Vehicle object is null");
         }
 
-        if(nearestEmptySlotNumber==null){
+        if(emptySlotPool.isEmpty()){
             throw new ParkingFullException("Sorry, parking lot is full");
         }
 
@@ -84,7 +87,7 @@ public class ParkingLot {
                             vehicle.getRegistrationNumber()));
         }
 
-        int allottedSlot = nearestEmptySlotNumber;
+        int allottedSlot = emptySlotPool.extractMin();
 
         // Park the vehicle
         vehicleSlots[allottedSlot] = vehicle;
@@ -98,18 +101,6 @@ public class ParkingLot {
         // To support O(1) search result for registration lookup command, maintain a registrationDictionary
         // 1. slot_number_for_registration_number
         registrationDictionary.insert(vehicle.getRegistrationNumber(), allottedSlot);
-
-        count++;
-
-        //Recalculate nearestEmptySlotNumber
-        //TODO: Can we optimize nearestEmptySlotNumber calculation?
-        if(count==size){
-            nearestEmptySlotNumber = null;
-        } else {
-            int i;
-            for (i=nearestEmptySlotNumber+1; i<=size && vehicleSlots[i]!=null; i++);
-            nearestEmptySlotNumber = i;
-        }
 
         return allottedSlot;
     }
@@ -134,14 +125,7 @@ public class ParkingLot {
         colorVehicleSlotMap.get(leavingVehicle.getColor()).remove(slotNumber);
         registrationDictionary.delete(leavingVehicle.getRegistrationNumber());
 
-        count--;
-
-        //Recalculate nearestEmptySlotNumber
-        if(nearestEmptySlotNumber==null){
-            nearestEmptySlotNumber=slotNumber;
-        } else if(slotNumber<nearestEmptySlotNumber){
-            nearestEmptySlotNumber = slotNumber;
-        }
+        emptySlotPool.insert(slotNumber);
 
         return leavingVehicle;
     }
