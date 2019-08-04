@@ -21,7 +21,7 @@ Parking Lot system project is designed to manage and operate a parking space.
 
 ###Mode of Operations
 - Batch Mode:
-    - Run the parking_lot command and enter the operation command through terminal.
+    - Run the parking_lot command and enter the operation commands through terminal.
     ```bash 
     ./bin/parking_lot
     create_parking_lot 5
@@ -36,10 +36,40 @@ Parking Lot system project is designed to manage and operate a parking space.
     exit
     ```
 - Interactive Mode:
-    - Collect the commands in a file input.txt and run the the command
+    - Collect the commands in a file input.txt and run the command
     ```bash 
     ./bin/parking_lot input.txt
     ```
+    
+## Data Structures
+- **Array**:  To store parking slots.
+    ```java
+    private Vehicle[] vehicleSlots;
+    ```
+    
+- **BinaryMinHeap**: To store empty slots to support O(long n) operation to get nearest empty slot.
+    ```java
+    private BinaryMinHeap<Integer> emptySlotPool;
+    ```
+    
+- **TrieDictionary**: To create registrationDictionary to support O(1) registration number lookup.
+    ```java
+    private TrieDictionary registrationDictionary = new TrieDictionary();
+    ```
+    
+- **HashMap**: To create colorVehicleSlotMap to support O(1) lookup of vehicles of a particular color
+    ```java
+    private Map<Colour, List<Integer>> colorVehicleSlotMap = new HashMap<>();
+    ```
+    
+    
+## Testing & Code Coverage
+- A thorough unit testing has been done 
+
+| Classes | Methods | Lines |
+| ------- | ------- | ----- |
+| 85% (17/20)| 73% (59/80) | 76% (294/384) |
+
 
 ####Author:
 - Bikas Anand<br>
