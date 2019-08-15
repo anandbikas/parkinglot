@@ -204,6 +204,21 @@ public class ParkingProcessorTest {
         Assert.assertEquals(brOutput.readLine(), outputs[6]);
     }
 
+    @Test(dependsOnMethods = {"testCreateParkingLot"})
+    private void testEmptySlotsCommand() throws IOException {
+
+        parkingProcessor.process(Command.EMPTY_SLOTS, new String[]{""});
+
+        systemOut.println(baos.toString());
+
+        setOutputBufferedReader();
+
+        Assert.assertEquals(brOutput.readLine(), "1, 2, 3, 4, 5, 6, 7, 8, 9, ");
+
+        systemOut.println(baos.toString());
+
+    }
+
     @Test()
     private void testLeave() throws IOException{
 

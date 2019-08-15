@@ -33,7 +33,8 @@ public enum Command {
             "slot_number_for_registration_number",
             "slot_number_for_registration_number <registration_number>"),
     EXIT("exit",
-            "exit");
+            "exit"),
+    EMPTY_SLOTS("empty_slots","empty_slots" );
 
 
     private final String command;

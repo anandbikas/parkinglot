@@ -158,6 +158,14 @@ public class ParkingLot {
     }
 
     /**
+     *
+     * @return
+     */
+    public void displayEmptySlots(){
+        emptySlotPool.display();
+    }
+
+    /**
      * return list of vehicles with a particular color
      *
      * @param colour

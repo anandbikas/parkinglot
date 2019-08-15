@@ -173,6 +173,9 @@ public class ParkingProcessor {
                 System.out.println(joiner);
                 break;
 
+            case EMPTY_SLOTS:
+                parkingLot.displayEmptySlots();
+
             default:
                 //Default empty
                 break;
