@@ -15,69 +15,84 @@ package com.anand.trie;
  *  2. delete : O(1)
  *  3. search : O(1)
  */
-public class TrieDictionary {
+public class TrieDictionary<T> {
 
-    private TrieNode root = new TrieNode();
-
-    private static final int WORD_LENGTH = 13;
+    private TrieNode root;
 
     /**
      *
-     * @param registrationNumber
-     * @param slotNumber
      */
-    public void insert(final String registrationNumber, final Integer slotNumber){
+    public TrieDictionary() {
+        super();
+        root = new TrieNode(new EnglishAlphabet());
+    }
 
-        final char[] charArray = registrationNumber.toCharArray();
+    /**
+     *
+     * @param alphabet
+     */
+    public TrieDictionary(Alphabet alphabet) {
+        this.root = new TrieNode(alphabet);
+    }
+
+    /**
+     *
+     * @param key
+     * @param value
+     */
+    public void insert(final String key, final T value){
+
+        final char[] charArray = key.toCharArray();
 
         TrieNode trieNode = root;
         for(char c: charArray){
             trieNode.setChild(c);
             trieNode = trieNode.getChild(c);
         }
-        trieNode.setSlotNumber(slotNumber);
+        trieNode.setValue(value);
     }
 
     /**
      *
-     * @param registrationNumber
-     * @return vehicle
+     * @param key
+     * @return
      */
-    public Integer search(final String registrationNumber){
+    public T search(final String key){
         if(root == null){
             return null;
         }
 
-        final char[] charArray = registrationNumber.toCharArray();
+        final char[] charArray = key.toCharArray();
 
-        TrieNode trieNode = root;
+        TrieNode<T> trieNode = root;
         for(char c: charArray){
             trieNode = trieNode.getChild(c);
             if(trieNode==null){
                 return null;
             }
         }
-        return trieNode.getSlotNumber();
+        return trieNode.getValue();
     }
 
     /**
      *
-     * @param registrationNumber
+     * @param key
+     * @return
      */
-    public void delete(final String registrationNumber){
+    public void delete(final String key){
         if(root == null){
             return;
         }
 
-        final char[] charArray = registrationNumber.toCharArray();
+        final char[] charArray = key.toCharArray();
 
-        TrieNode trieNode = root;
+        TrieNode<T> trieNode = root;
         for(char c: charArray){
             trieNode = trieNode.getChild(c);
             if(trieNode==null){
                 return;
             }
         }
-        trieNode.setSlotNumber(null);
+        trieNode.setValue(null);
     }
 }

@@ -14,11 +14,11 @@ import org.testng.annotations.Test;
 @Test
 public class TrieDictionaryTest {
 
-    private TrieDictionary trieDictionary;
+    private TrieDictionary<Integer> trieDictionary;
 
     @BeforeMethod
     private void setUp(){
-        trieDictionary = new TrieDictionary();
+        trieDictionary = new TrieDictionary<>(new RegistrationNumberAlphabet());
     }
 
     @Test

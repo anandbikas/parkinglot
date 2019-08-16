@@ -7,61 +7,35 @@
  */
 package com.anand.trie;
 
-import com.anand.trie.exception.TrieCharacterNotSupportedException;
-
 /**
  * TrieNode for dictionary
  */
-public class TrieNode {
+public class TrieNode<T> {
 
-    //Dictionary alphabets A-Z,0-1,- to store slotNumber registration number.
-    // Eg: KA-01-HH-9999
-    public final static int ALPHABET_SIZE = 26+10+1;
-    private final static int A = 'A';
-    private final static int ZERO = '0';
-    private final static int DASH = '-';
+    private Alphabet alphabet;
+    private TrieNode [] children;
 
-
-    private TrieNode [] children = new TrieNode[ALPHABET_SIZE];
-
-    //if slotNumber == null, this is not a dictionary word.
-    private Integer slotNumber;
+    //if value == null, this is not a dictionary word. Else a corresponding value to the key.
+    private T value;
 
     /**
      *
      */
-    public TrieNode(){
+    public TrieNode(Alphabet alphabet){
         super();
+        this.alphabet = alphabet;
+        this.children = new TrieNode[alphabet.getSize()];
     }
 
-    /**
-     *
-     * @param c
-     * @return
-     * @throws TrieCharacterNotSupportedException
-     */
-    private int charToIndex(char c){
-        c = Character.toUpperCase(c);
-        if(c>='A' && c<='Z'){
-            return Character.toUpperCase(c)-A;
-        } else if(c>='0' && c<='9'){
-            return c-ZERO + 26;
-        } else if(c==DASH){
-            return c-DASH + 26+10;
-        }else {
-            throw new TrieCharacterNotSupportedException(String.format("Character %s not supported",c));
-        }
-    }
 
     /**
      *
      * @param c
      */
     public void setChild(final char c){
-
-        final int childIndex = charToIndex(c);
+        final int childIndex = alphabet.charToIndex(c);
         if(children[childIndex] == null){
-            children[childIndex] = new TrieNode();
+            children[childIndex] = new TrieNode(alphabet);
         }
     }
 
@@ -71,23 +45,23 @@ public class TrieNode {
      * @return
      */
     public TrieNode getChild(final char c){
-        return children[charToIndex(c)];
+        return children[alphabet.charToIndex(c)];
     }
 
     /**
      *
      * @return
      */
-    public Integer getSlotNumber() {
-        return slotNumber;
+    public T getValue() {
+        return value;
     }
 
     /**
      *
-     * @param slotNumber
+     * @param value
      */
-    public void setSlotNumber(Integer slotNumber) {
-        this.slotNumber = slotNumber;
+    public void setValue(T value) {
+        this.value = value;
     }
 
     /**
@@ -97,7 +71,7 @@ public class TrieNode {
     @Override
     public String toString() {
         return "TrieNode{" +
-                "slotNumber='" + slotNumber + '\'' +
+                "value='" + value + '\'' +
                 '}';
     }
 }

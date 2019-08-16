@@ -12,6 +12,7 @@ import com.anand.parkinglot.exception.DuplicateVehicleException;
 import com.anand.parkinglot.exception.ParkingFullException;
 import com.anand.parkinglot.exception.ParkingSlotOutOfBoundException;
 import com.anand.parkinglot.exception.VehicleNotFoundException;
+import com.anand.trie.RegistrationNumberAlphabet;
 import com.anand.trie.TrieDictionary;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class ParkingLot {
     //TODO: colour-> list map: list can be expensive for delete operation, Optimization?
     private Map<Colour, List<Integer>> colorVehicleSlotMap = new HashMap<>();
 
-    private TrieDictionary registrationDictionary = new TrieDictionary();
+    // Registration number -> Slot number trie map.
+    private TrieDictionary<Integer> registrationDictionary = new TrieDictionary<>(new RegistrationNumberAlphabet());
 
     /**
      *
